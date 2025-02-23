@@ -1,0 +1,195 @@
+/* Fichier style.css : Steampunk */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel&display=swap');
+
+
+
+/* Style général */
+body {
+    font-family: 'Georgia', serif;
+    background-color: #2c2c2c;
+    color: #d1b077;
+    margin: 0;
+    line-height: 1.6;
+    padding: 10px;
+}
+
+/* Titres */
+h1, h2, h3 {
+    font-family: 'Cinzel', swap;
+    color: #f4d03f;
+    text-shadow: 1px 1px 2px #000;
+    text-align: center;
+}
+
+/* Lien */
+a {
+    color: #f4d03f;
+    text-decoration: none;
+    font-style: italic;
+}
+a:hover {
+    color: #b37f21;
+    text-decoration: underline;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    text-align: left;
+    background-color: #3e3e3e;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #d1b077;
+}
+
+th {
+    background-color: #664229;
+    color: #f4d03f;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+tr:nth-child(even) {
+    background-color: #4d4e4e;
+}
+
+tr:hover {
+    background-color: #5e4026;
+}
+
+/* Boutons */
+button {
+    background-color: #664229;
+    color: #f4d03f;
+    padding: 10px 15px;
+    border: 1px solid #d1b077;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Georgia', serif;
+}
+button:hover {
+    background-color: #bb8a36;
+    color: #2c2c2c;
+}
+
+/* Formulaire */
+input[ type = "text" ][ name = "title"]{
+    font-size: 1.2em;
+    border: 1px solid #d1b077;
+    padding: 3px;
+    background-color: #3e3e3e;
+    color: #fff;
+    font-family: 'Georgia', serif;
+}
+
+input[ type = "text" ][ name = "title"]:focus {
+    outline: none;
+    border-color: #f4d03f;
+    box-shadow: 0 0 5px #f4d03f;
+}
+
+textarea {
+    width: 98%;
+    height: 100px;
+    border: 1px solid #d1b077;
+    padding: 10px;
+    background-color: #3e3e3e;
+    color: #fff;
+    font-family: 'Georgia', serif;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #f4d03f;
+    box-shadow: 0 0 5px #f4d03f;
+}
+
+/* Articles */
+.article {
+    min-height: 300px;
+    margin: 10px 10px 20px;
+    padding: 10px;
+    border: 1px solid #d1b077;
+    background-color: #1b1b1b;
+    border-radius: 5px;
+}
+
+.article *:not(b):not(strong):not(i):not(em):not(u):not(s):not(mark):not(small):not(code):not(q):not(blockquote):not(hr):not(sup):not(p):not(a)
+{
+    all: unset;
+}
+
+
+.article strong {
+    color: #A6761D;
+}
+
+.article em {
+    color: #cf6800;
+}
+
+.article code {
+    color: #acafea; /* Texteur brun foncé */
+}
+
+.article blockquote {
+    border-left: 5px solid #B6862C;
+    padding-left: 10px;
+    font-style: italic;
+    color: #6E4A2D; /* Texte brun cuivré */
+}
+
+.article hr {
+    border: none;
+    border-top: 2px solid #D4A017; /* Ligne dorée brillante */
+}
+
+
+.article a {
+    color: #D4A017;
+    text-decoration: none;
+}
+
+.article a:hover {
+    color: #A6761D;
+    text-decoration: underline;
+}
+
+
+/* Commentaires */
+.comment {
+    background-color: #4d4e4e;
+    border: 1px solid #3e3e3e;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.comment strong {
+    color: #f4d03f;
+    font-weight: bold;
+}
+
+.comment .content {
+    font-style: italic;
+    color: #d1b077;
+}
+
+.comment .date {
+    font-size: 0.9em;
+    color: #a89d77;
+}
+
+/* Conteneur principal */
+#comments-container {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #d1b077;
+    background-color: #3e3e3e;
+    border-radius: 5px;
+}
