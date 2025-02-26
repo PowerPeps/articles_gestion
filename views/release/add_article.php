@@ -34,11 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <input type="text" id="title" name="title" required>
     <br>
     <label for="content">Contenu:</label>
-    <textarea id="content" name="content" required></textarea>
+    <textarea class="article-content" id="content" name="content" required></textarea>
     <br>
     <button type="submit">Ajouter</button>
 </form>
-<div id="render" class="article">
+<div id="render" class="article-content">
 </div>
 
 <script>

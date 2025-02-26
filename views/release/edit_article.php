@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
 <head>
     <title>Modifier un Article</title>
-    <link rel="stylesheet" href="/public/css/style.css"/> <!-- Style ajouté -->
+    <link rel="stylesheet" href="/public/css/style.css"/>
 </head>
 <body>
 <h1>Modifier un Article</h1>

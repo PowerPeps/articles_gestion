@@ -66,6 +66,12 @@ a:hover {
     text-decoration: underline;
 }
 
+.quiet {
+    color: var(--color-placeholder);
+    font-style: normal;
+    text-decoration: none;
+}
+
 /* Boutons */
 button {
     background-color: var(--color-table-header);
@@ -115,6 +121,7 @@ textarea:focus {
 
 /* Article */
 .articles {
+    width: 100%;
     display: inline-flex;
     flex-direction: row;
     flex-wrap: wrap;

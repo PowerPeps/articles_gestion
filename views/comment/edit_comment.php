@@ -1,46 +1,79 @@
 <?php
-
 $message = '';
-
-$commentId = $_GET['id'] ?? null;
-$userId = $_SESSION['user_id'] ?? null;
-
-if (!$userId) {
-    die('Vous devez être connecté pour modifier ce commentaire.');
-}
+$userId = (int)$_SESSION['user_id'] ?? null;
 
 $controller = new CommentController();
-$comment = $controller->viewComment($commentId);
 
-if (!$comment || $comment['id_us'] != $userId) {
-    die('Vous n\'êtes pas autorisé à modifier ce commentaire.');
-}
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $content = $_POST['content'] ?? '';
+switch ($_SERVER['REQUEST_METHOD']) {
+    case 'POST':
+        $content = $_POST['content'] ?? '';
+        $id = $_POST['id_com'] ?? null;
+        $comment = $controller->viewComment($id);
 
-    if ($controller->editOwnComment($comment['id'], $userId, $content)) {
-        $message = 'Commentaire modifié avec succès.';
-    } else {
-        $message = 'Une erreur est survenue lors de la modification.';
-    }
+        if (empty($content)) {
+            $controller->deleteComment($comment['id']);
+        } elseif ($controller->editOwnComment($comment['id'], $userId, $content)) {
+            $comment = $controller->viewComment($id); // Mise à jour du commentaire après édition
+        } else {
+            $message = 'Une erreur est survenue lors de la modification.';
+        }
+        break;
+
+    case 'GET':
+        $id = $_GET['id_com'] ?? null;
+        $comment = $controller->viewComment($id);
+
+        if ($comment['id_us'] != $userId) {
+            die('Vous n\'êtes pas autorisé à modifier ce commentaire.');
+        } elseif (!$userId) {
+            die('Vous devez être connecté pour modifier des commentaires.');
+        } else {
+            $comment = $controller->viewComment($id); // Récupération du commentaire
+        }
+        break;
+
+    default:
+        http_response_code(405); // Méthode non autorisée
+        die('Méthode HTTP non autorisée.');
 }
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Modifier un Commentaire</title>
-</head>
-<body>
-<h1>Modifier un Commentaire</h1>
-<p style="color: red;"><?= htmlspecialchars($message) ?></p>
-<form method="POST">
-    <label>Contenu:</label>
-    <textarea name="content" required><?= htmlspecialchars($comment['content']) ?></textarea>
-    <br>
-    <button type="submit">Modifier</button>
-</form>
-<a href="/comments?article_id=<?= urlencode($comment['article_id']) ?>">Retour</a>
-</body>
-</html>
+<div class="comment">
+    <?php if ($message): ?>
+        <p class="message <?= $message === 'Une erreur est survenue lors de la modification.' ? 'error' : 'success' ?>">
+            <?= $message ?>
+        </p>
+    <?php endif; ?>
+    <form method="POST" action="/comments/edit" onsubmit="submitForm(event, this);">
+        <input type="hidden" name="id_com" value="<?= $comment['id'] ?>">
+        <textarea id="content" name="content" rows="5"><?= htmlspecialchars($comment['content']) ?></textarea>
+        <button type="submit">Enregistrer</button>
+    </form>
+
+    <div id="responseMessage"></div>
+</div>
+
+
+<script>
+    function submitForm(event, form) {
+        event.preventDefault(); // Empêche l'envoi classique du formulaire
+
+        const formData = new FormData(form); // Récupère les données du formulaire
+
+        fetch(form.action, { // URL définie dans le champ "action" du formulaire
+            method: form.method, // Méthode définie dans le champ "method" du formulaire
+            body: formData
+        })
+            .then(data => {
+                console.log(data)
+                if (data.status === 200) {
+                    console.log("success")
+                    window.location.href = '/articles/view?id=<?= $comment['article_id'] ?>';
+                }
+            })
+            .catch(error => {
+                console.error('Erreur :', error);
+            });
+    }
+</script>
