@@ -73,28 +73,32 @@ class UserRepository extends DB_PDO
 
     public function updateUser(User $user): bool
     {
-        $passwordClause = $user->getPassword() ? ", password = :password" : "";
-
-        $stmt = self::$pdo->prepare(
-            "UPDATE users SET 
-                username = :username, nom = :nom, prenom = :prenom, user_level = :user_level
-                $passwordClause 
-             WHERE id_aut = :id"
-        );
-
-        $params = [
-            ':username' => $user->getUsername(),
-            ':nom' => $user->getNom(),
-            ':prenom' => $user->getPrenom(),
-            ':user_level' => $user->getUserLevel(),
-            ':id' => $user->getId(),
-        ];
+        $sql = "UPDATE users SET 
+                username = :username, 
+                nom = :nom, 
+                prenom = :prenom, 
+                user_level = :user_level";
 
         if ($user->getPassword()) {
-            $params[':password'] = self::hashPassword($user->getPassword());
+            $sql .= ", password = :password";
         }
 
-        $stmt->execute($params);
+        $sql .= " WHERE id_aut = :id";
+
+        $stmt = self::$pdo->prepare($sql);
+
+        $stmt->bindParam(':username', $user->getUsername());
+        $stmt->bindParam(':nom', $user->getNom());
+        $stmt->bindParam(':prenom', $user->getPrenom());
+        $stmt->bindParam(':user_level', $user->getUserLevel());
+        $stmt->bindParam(':id', $user->getId());
+
+        if ($user->getPassword()) {
+            $hashedPassword = self::hashPassword($user->getPassword());
+            $stmt->bindParam(':password', $hashedPassword);
+        }
+
+        $stmt->execute();
         return $stmt->rowCount() > 0;
     }
 }

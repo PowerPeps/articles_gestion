@@ -52,6 +52,11 @@ class ReleaseModel extends DB_PDO
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getLastArticles($nb) {
+        $stmt = self::$pdo->query("SELECT * FROM articles ORDER BY date_create DESC LIMIT $nb");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     // Récupérer les articles d'un auteur
     public function getArticlesByAuthor($idAut)
     {

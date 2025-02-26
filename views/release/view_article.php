@@ -21,7 +21,7 @@ $userId = $_SESSION['user_id'] ?? null; // ID de l'utilisateur connecté
 </head>
 <body>
 <h1><?= htmlspecialchars($article['title']) ?></h1>
-<div class="article">
+<div class="article-content">
     <?= strip_tags($article['content'], '<b><strong><i><em><u><s><mark><small><code><q><blockquote><hr><sup><p><a>') ?>
 </div>
 

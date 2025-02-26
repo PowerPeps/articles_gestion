@@ -37,5 +37,9 @@ if ($matchedRoute['requiresAuth'] ?? false) {
 
 
 // Inclusion de la vue de la route correspondante
-
+echo "
+<div data-src='\menu'></div>
+<div class='log' data-src='\logout'></div>
+";
 require_once $matchedRoute['view'];
+echo "<script src='/public/js/include-html.js'></script><link rel='stylesheet' href='/public/css/style.css'>";

@@ -14,6 +14,11 @@ class ArticleController
         return $this->releaseModel->getAllArticles();
     }
 
+    public function listLastArticles($nb)
+    {
+        return $this->releaseModel->getLastArticles($nb);
+    }
+
     // Voir un article par ID
     public function viewArticle($id)
     {

@@ -23,6 +23,6 @@ return [
             'user' => 'root',
             'password' => '',
         ],
-        'limit_last_articles' => 5,
+        'limit_last_articles' => 3,
     ]
 ];

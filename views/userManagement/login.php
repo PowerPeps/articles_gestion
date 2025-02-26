@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($user) {
         // Si connexion réussie, rediriger vers le tableau de bord
-        header('Location: /dashboard');
+        header('Location: /');
         exit;
     } else {
         // Si échec, afficher un message d'erreur
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
 
 <!-- Formulaire de connexion -->
-<form method="POST" action="/login">
+<form class="loginform" method="POST" action="/login">
     <div>
         <label for="username">Nom d'utilisateur :</label>
         <input type="text" name="username" id="username" required>

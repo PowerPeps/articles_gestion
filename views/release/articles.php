@@ -1,6 +1,7 @@
 <?php
-$controller = new ArticleController();
-$articles = $controller->listArticles();
+$articleController = new ArticleController();
+$AuthController = new AuthController();
+$articles = $articleController->listArticles();
 
 ?>
 
@@ -8,42 +9,50 @@ $articles = $controller->listArticles();
 <html>
 <head>
     <title>Liste des Articles</title>
-    <link rel="stylesheet" href="/public/css/style.css"
 </head>
 <body>
-<div class="logout" w3-include-html="\logout"></div>
 
 <h1>Liste des Articles</h1>
-<a href="/articles/add">Ajouter un Article</a>
-<table border="1">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Titre</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
+<div class="articles">
     <?php if (!empty($articles)): ?>
         <?php foreach ($articles as $article): ?>
-            <tr>
-                <td><?= htmlspecialchars($article['id']) ?></td>
-                <td><?= htmlspecialchars($article['title']) ?></td>
-                <td>
-                    <a href="/articles/view?id=<?= urlencode($article['id']) ?>">Voir</a>
-                    <a href="/articles/edit?id=<?= urlencode($article['id']) ?>">Modifier</a>
-                    <a href="/articles/delete?id=<?= urlencode($article['id']) ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet article ?')">Supprimer</a>
-                </td>
-            </tr>
+                <div class="article" onclick="location.href = '/articles/view?id=<?= urlencode($article['id']) ?>';">
+                    <div class="article-title">
+                        <h2><?= htmlspecialchars($article['title']) ?></h2>
+                    </div>
+                    <div class="article-summary">
+                        <p>
+                            <?php
+                            $summary = strip_tags($article['content']); // Supprime les balises HTML
+                            if (strlen($summary) > 150) {
+                                $summary = substr($summary, 0, 150);
+                                $lastSpace = strrpos($summary, ' '); // Trouve la dernière occurrence d'un espace
+                                if ($lastSpace !== false) {
+                                    $summary = substr($summary, 0, $lastSpace); // Coupe avant le dernier mot
+                                }
+                                $summary .= '...'; // Ajoute des points de suspension
+                            }
+                            echo htmlspecialchars($summary);
+                            ?>
+                        </p>
+                    </div>
+                    <div class="article-actions">
+                        <?php if($AuthController::checkOwnership($article['id_aut'])): ?>
+                            <a href="/articles/edit?id=<?= urlencode($article['id']) ?>">Modifier</a>
+                        <?php endif;?>
+                        <?php if(isset($_SESSION['user_level']) && ($_SESSION['user_level'] >= constant('ADMIN_LEVEL') || $AuthController::checkOwnership($article['id_aut']))): ?>
+                            <a href="/articles/delete?id=<?= urlencode($article['id']) ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet article ?')">Supprimer</a>
+                        <?php endif;?>
+                    </div>
+                </div>
+
         <?php endforeach; ?>
     <?php else: ?>
-        <tr>
-            <td colspan="3">Aucun article trouvé.</td>
-        </tr>
+        <div class="no-articles">
+            <p>Aucun article trouvé.</p>
+        </div>
     <?php endif; ?>
-    </tbody>
-</table>
+</div>
 </body>
-<script src="/public/js/include-html.js"></script>
-<script>includeHTML();</script>
 </html>
+

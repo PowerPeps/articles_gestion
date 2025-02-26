@@ -36,9 +36,9 @@ echo "<p>Bienvenue {$user->getNom()} {$user->getPrenom()}, vous avez un accès d
     <br><br>
     <label for="userLevel">Niveau d'utilisateur :</label>
     <select form="create-account" name="userLevel" id="userLevel">
-        <option value="<?php echo htmlspecialchars(ADMIN_LEVEL); ?>">Administrateur</option>
-        <option value="<?php echo htmlspecialchars(USER_LEVEL); ?>">Utilisateur</option>
-        <option value="<?php echo htmlspecialchars(GUEST_LEVEL); ?>">Invité</option>
+        <option value="<?php echo htmlspecialchars(constant('ADMIN_LEVEL')); ?>">Administrateur</option>
+        <option value="<?php echo htmlspecialchars(constant('USER_LEVEL')); ?>">Utilisateur</option>
+        <option value="<?php echo htmlspecialchars(constant('GUEST_LEVEL')); ?>">Invité</option>
     </select>
     <br><br>
     <label for="name">Nom :</label>
