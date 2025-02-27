@@ -9,3 +9,18 @@ Use Apache, or configure another `.htaccess`.
 
 > The `_class` directory contains the database management.  
 > `LanguageManager` is not fully enabled at this time, but it works!
+
+
+**create an .htaccess file, and add :**
+```
+RewriteEngine On
+
+# Exclude /public directory from redirects
+RewriteCond %{REQUEST_URI} !^/public
+
+# Exclude direct access to index.php file to avoid infinite loops ahahahahahha (30min debug, thanks Apache :) )
+RewriteCond %{REQUEST_URI} !^/index\.php
+
+# All redirected to index.php
+RewriteRule ^(.*)$ /index.php [L,QSA]
+```
